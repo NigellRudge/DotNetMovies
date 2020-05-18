@@ -1,0 +1,9 @@
+G:\Development\Learning\Web Development\C#\DotNetMovies\DotNetMovieCore\bin\Debug\netstandard2.0\DotNetMovieCore.deps.json
+G:\Development\Learning\Web Development\C#\DotNetMovies\DotNetMovieCore\bin\Debug\netstandard2.0\DotNetMovieCore.dll
+G:\Development\Learning\Web Development\C#\DotNetMovies\DotNetMovieCore\bin\Debug\netstandard2.0\DotNetMovieCore.pdb
+G:\Development\Learning\Web Development\C#\DotNetMovies\DotNetMovieCore\obj\Debug\netstandard2.0\DotNetMovieCore.AssemblyInfoInputs.cache
+G:\Development\Learning\Web Development\C#\DotNetMovies\DotNetMovieCore\obj\Debug\netstandard2.0\DotNetMovieCore.AssemblyInfo.cs
+G:\Development\Learning\Web Development\C#\DotNetMovies\DotNetMovieCore\obj\Debug\netstandard2.0\DotNetMovieCore.dll
+G:\Development\Learning\Web Development\C#\DotNetMovies\DotNetMovieCore\obj\Debug\netstandard2.0\DotNetMovieCore.pdb
+G:\Development\Learning\Web Development\C#\DotNetMovies\DotNetMovieCore\obj\Debug\netstandard2.0\DotNetMovieCore.csproj.CoreCompileInputs.cache
+G:\Development\Learning\Web Development\C#\DotNetMovies\DotNetMovieCore\obj\Debug\netstandard2.0\DotNetMovieCore.csprojAssemblyReference.cache

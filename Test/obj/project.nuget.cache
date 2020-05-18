@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "M1H/T+t27+C2L8B+4gstMgu5q+ZkjLkodvZAkxp2wm+Zo4OteNbvU/Y4G2Y+R4apAQycEr2l3hF+hlqtxqs/gg==",
+  "success": true,
+  "projectFilePath": "G:\\Development\\Learning\\Web Development\\C#\\DotNetMovies\\Test\\Test.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\HP User\\.nuget\\packages\\newtonsoft.json\\12.0.3\\newtonsoft.json.12.0.3.nupkg.sha512"
+  ],
+  "logs": []
+}
