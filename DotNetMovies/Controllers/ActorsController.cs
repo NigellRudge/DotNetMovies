@@ -8,12 +8,12 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace DotNetMovies.Controllers
 {
-    [Route("Actor")]
-    public class ActorController : Controller
+    [Route("Actors")]
+    public class ActorsController : Controller
     {
         private IActorService service;
 
-        public ActorController(IActorService actorService)
+        public ActorsController(IActorService actorService)
         {
             service = actorService;
         }
