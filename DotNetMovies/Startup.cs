@@ -26,6 +26,11 @@ namespace DotNetMovies
         {
             services.AddControllersWithViews();
             services.AddScoped<IMovieService, MovieService>();
+            services.AddScoped<IShowService, ShowService>();
+            services.AddCors(options =>{
+                options.AddPolicy("AllowOrigin",
+                    builder => builder.WithOrigins("http://localhost:44317"));
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -45,6 +50,7 @@ namespace DotNetMovies
             app.UseStaticFiles();
 
             app.UseRouting();
+            app.UseCors();
 
             app.UseAuthorization();
 

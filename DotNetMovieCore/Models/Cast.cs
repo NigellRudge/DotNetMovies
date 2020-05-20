@@ -16,7 +16,7 @@ namespace DotNetMovieCore.Models
         public string profile_path { get; set; }
         public string getProfilePath()
         {
-            return "https://image.tmdb.org/t/p/original/" + this.profile_path;
+            return this.profile_path == null ? null : "https://image.tmdb.org/t/p/original/" + this.profile_path;
         }
 
     }

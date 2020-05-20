@@ -4,11 +4,9 @@ using System.Text;
 
 namespace DotNetMovieCore.Models
 {
-    public class CreditsResult
+    public class EpisodeImageResult
     {
         public int id { get; set; }
-        public IList<Cast> cast { get; set; }
-        public IList<Crew> crew { get; set; }
+        public IList<Still> stills { get; set; }
     }
-
 }

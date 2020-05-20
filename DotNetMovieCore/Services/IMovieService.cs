@@ -16,5 +16,7 @@ namespace DotNetMovieCore.Services
         IEnumerable<Poster> GetMoviePosters(int movieId);
         IEnumerable<Genre> GetMovieGenres();
         string GetGenreName(int id);
+
+        VideoItem GetMovieTrailer(int movieId);
     }
 }

@@ -5,8 +5,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - DotNetMovies</title>
     <link href="https://unpkg.com/tailwindcss@@^1.0/dist/tailwind.min.css" rel="stylesheet">
+        @RenderSection("CustomCSS",required:false)
+    <style>
+        .loader {
+            margin:auto;
+            border: 4px solid #f3f3f3;
+            border-radius: 50%;
+            border-top: 4px solid #3498db;
+            width: 20px;
+            height: 20px;
+            -webkit-animation: spin 0.75s linear infinite; /* Safari */
+            animation: spin 0.75s linear infinite;
+        }
+
+        @@keyframes spin {
+          0% { transform: rotate(0deg); }
+          100% { transform: rotate(360deg); }
+        }
+    </style>
 </head>
-<body class="font-sans bg-gray-900 text-white">
+<body class="font-sans bg-gray-900 text-white" onclick="refresh()">
     <nav class="border-b border-gray-800">
         <div class="container mx-auto px-4 flex flex-col md:flex-row items-center justify-between px-4 py-6">
             <ul class="flex flex-col md:flex-row items-center">
@@ -16,20 +34,26 @@
                     </a>
                 </li>
                 <li class="md:ml-16 mt-3 md:mt-0">
-                    <a href="#" class="hover:text-gray-300">Movies</a>
+                    <a asp-controller="Movies" asp-action="Index" class="hover:text-gray-300">Movies</a>
                 </li>
                 <li class="md:ml-6 mt-3 md:mt-0">
-                    <a href="#" class="hover:text-gray-300">TV Shows</a>
+                    <a asp-controller="Shows" asp-action="Index" class="hover:text-gray-300">TV Shows</a>
                 </li>
                 <li class="md:ml-6 mt-3 md:mt-0">
                     <a href="#" class="hover:text-gray-300">Actors</a>
                 </li>
             </ul>
             <div class="flex flex-col md:flex-row items-center">
-                <div class="relative mt-3 md:mt-0" >
-                    <input type="text" class="bg-gray-800 text-sm rounded-full w-64 px-4 pl-8 py-1 focus:outline-none focus:shadow-outline" placeholder="Search (Press '/' to focus)">
+                <div class="relative mt-3 md:mt-0">
+                    <input type="text" class="bg-gray-800 text-sm rounded-full w-64 px-4 pl-8 py-1 focus:outline-none focus:shadow-outline" placeholder="Search (Press '/' to focus)" onkeyup="HelloWorld(event)" id="searchInput">
                     <div class="absolute top-0">
                         <svg class="fill-current w-4 text-gray-500 mt-2 ml-2" viewBox="0 0 24 24"><path class="heroicon-ui" d="M16.32 14.9l5.39 5.4a1 1 0 01-1.42 1.4l-5.38-5.38a8 8 0 111.41-1.41zM10 16a6 6 0 100-12 6 6 0 000 12z" /></svg>
+                    </div>
+                    <div class="z-50 absolute bg-gray-800 text-sm rounded w-64 mt-4" x-show.transition.opacity="isOpen">
+                        <ul id="resultsList">
+                        </ul>
+
+
                     </div>
                 </div>
                 <div class="md:ml-4 mt-3 md:mt-0">
@@ -40,7 +64,7 @@
             </div>
         </div>
     </nav>
-            @RenderBody()
+    @RenderBody()
 
 
     <footer class="border border-t border-gray-800">
@@ -50,6 +74,105 @@
     </footer>
 
     <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+
+            $(document).keypress(function (event) {
+                if (event.which == 47) {
+                    $('#searchInput').focus();
+                }
+
+            });
+
+            $(document).keypress(function (event) {
+                  if (event.which == 27) {
+                        $('#searchInput').focusout();
+                    }
+                console.log(event.hwi)
+
+            });
+        });
+
+        function HelloWorld(event) {
+            event.preventDefault();
+
+            var query = event.target.value;
+            if (query == null || query == "") {
+                refresh();
+                return;
+            }
+            let url = "https://localhost:44317/movies/search?query=" + query;
+            console.log(event.target.value);
+            fetch(url)
+                .then((response) => {
+                    EnableSpinnder();
+                    return response.json();
+                })
+                .then(data => {
+                    refresh();
+                    setTimeout(DisableSpinnder, 8000);
+                    
+                    if (data.length > 0 || data == null) {
+                        CreateList(data);
+                    }
+                    else {
+                        CreateEmpty(query);
+                    }
+
+                });
+
+        }
+
+        function CreateElement(result) {
+            if (result['poster_path'] == null || result['poster_path'] == "") {
+                console.log(result['poster_path']);
+                result['poster_path'] = "https://localhost:44317/img/poster_placeholder.png";
+            }
+            else {
+                result['poster_path'] = "https://image.tmdb.org/t/p/original" + result['poster_path'];
+            }
+            return `<li class="border-b border-gray-700">
+                            <a href = "" class="block hover:bg-gray-700 px-3 py-3 flex items-center transition ease-in-out duration-150" >
+                                <img src="${result['poster_path']}" alt="poster" class="w-8">
+                                <span class="ml-4">${result['title']}</span>
+                             </a>
+                        </li >`;
+        }
+
+        function CreateList(data) {
+            var count = data.length > 5 ? 5 : data.length;
+            console.log("count:" + count);
+            for (var i = 0; i < count; i++) {
+                $(CreateElement(data[i])).appendTo('#resultsList');
+            }
+        }
+
+        function CreateEmpty(query) {
+            $("#resultsList").append(
+                `<div class="px-3 py-3">
+                         No results for ${query}
+                     </div>`
+            );
+        }
+        function refresh() {
+            $("#resultsList").empty();
+            console.log('Empty');
+        }
+
+        function EnableSpinnder() {
+            refresh();
+            $("#resultsList").append(
+                `<div class="px-3 py-3 loader"></div>`
+            );
+        }
+        function DisableSpinnder() {
+            $('.loader').remove();
+        }
+
+    </script>
+
     @RenderSection("Scripts", required: false)
 </body>
 </html>

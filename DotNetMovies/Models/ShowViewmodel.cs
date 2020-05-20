@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace DotNetMovies.Models
 {
-    public class DetailViewModel
+    public class ShowViewmodel
     {
-        public MovieInfo movie;
+        public ShowInfo show;
         public List<Cast> cast;
         public List<Crew> crew;
         public List<Backdrop> backdrops;
