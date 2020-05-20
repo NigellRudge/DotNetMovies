@@ -27,6 +27,7 @@ namespace DotNetMovies
             services.AddControllersWithViews();
             services.AddScoped<IMovieService, MovieService>();
             services.AddScoped<IShowService, ShowService>();
+            services.AddScoped<IActorService, ActorService>();
             services.AddCors(options =>{
                 options.AddPolicy("AllowOrigin",
                     builder => builder.WithOrigins("http://localhost:44317"));

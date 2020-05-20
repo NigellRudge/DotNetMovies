@@ -5,8 +5,11 @@ using System.Text;
 
 namespace DotNetMovieCore.Services
 {
-    public interface IActorService: IBaseService<Actor>
+    public interface IActorService
     {
-
+         ActorInfo GetActorInfo(int actorId);
+        IEnumerable<ActorImage> GetActorImages(int actorId);
+        ActorCreditResult GetActorCredits(int actorId);
+        IEnumerable<Actor> GetActors(int page = 1);
     }
 }

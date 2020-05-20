@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DotNetMovieCore.config;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -16,7 +17,7 @@ namespace DotNetMovieCore.Models
 
         public string getPosterPath()
         {
-            return this.poster_path == null ? null : "https://image.tmdb.org/t/p/original/" + this.poster_path;
+            return this.poster_path == null ? null : Config.MEDIA_URL + this.poster_path;
         }
  
         public string getSeasonNumber()

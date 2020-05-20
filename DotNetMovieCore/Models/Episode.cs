@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DotNetMovieCore.config;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -19,5 +20,10 @@ namespace DotNetMovieCore.Models
         public int vote_count { get; set; }
         public IList<Crew> crew { get; set; }
         public IList<GuestStar> guest_stars { get; set; }
+
+        public string GetStilPath()
+        {
+            return this.still_path == null ? null : Config.MEDIA_URL + this.still_path;
+        }
     }
 }

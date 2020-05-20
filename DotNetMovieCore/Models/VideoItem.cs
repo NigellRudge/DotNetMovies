@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DotNetMovieCore.config;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -17,7 +18,7 @@ namespace DotNetMovieCore.Models
 
         public string GetVideoUrl()
         {
-            return "https://www.youtube.com/watch?v=" + this.key;
+            return Config.VIDEO_URL + this.key;
         }
     }
 }

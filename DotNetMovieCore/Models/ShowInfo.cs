@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DotNetMovieCore.config;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -37,12 +38,12 @@ namespace DotNetMovieCore.Models
 
         public string getPosterPath()
         {
-            return "https://image.tmdb.org/t/p/original/" + this.poster_path;
+            return Config.MEDIA_URL + this.poster_path;
         }
 
         public string getBackdropPath()
         {
-            return "https://image.tmdb.org/t/p/original/" + this.backdrop_path;
+            return Config.MEDIA_URL + this.backdrop_path;
         }
     }
 }

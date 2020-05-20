@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DotNetMovieCore.config;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -16,7 +17,7 @@ namespace DotNetMovieCore.Models
 
         public string GetFilePath()
         {
-            return "https://image.tmdb.org/t/p/original/" + this.file_path;
+            return Config.MEDIA_URL + this.file_path;
         }
     }
 }

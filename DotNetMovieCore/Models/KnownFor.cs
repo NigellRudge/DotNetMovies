@@ -1,16 +1,14 @@
 ﻿using DotNetMovieCore.config;
-using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace DotNetMovieCore.Models
 {
-    public class Show
+    public class KnownFor
     {
         public string original_name { get; set; }
         public IList<int> genre_ids { get; set; }
+        public string media_type { get; set; }
         public string name { get; set; }
-        public double popularity { get; set; }
         public IList<string> origin_country { get; set; }
         public int vote_count { get; set; }
         public string first_air_date { get; set; }
@@ -21,15 +19,14 @@ namespace DotNetMovieCore.Models
         public string overview { get; set; }
         public string poster_path { get; set; }
 
-        public string getPosterPath()
+        public string GetPosterPath()
         {
-            return Config.MEDIA_URL + poster_path;
+            return this.poster_path == null ? null : Config.MEDIA_URL + this.poster_path;
         }
 
-        public string getBackdropPath()
+        public string GetBackdropPath()
         {
-            return Config.MEDIA_URL + this.backdrop_path;
+            return this.backdrop_path == null ? null : Config.MEDIA_URL + this.backdrop_path;
         }
-
     }
 }
