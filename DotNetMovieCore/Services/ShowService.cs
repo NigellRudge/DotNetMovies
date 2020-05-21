@@ -14,10 +14,12 @@ namespace DotNetMovieCore.Services
     public class ShowService : IShowService
     {
         private ApiOptions config;
+        private IEnumerable<Genre> genres;
 
         public ShowService(IOptionsMonitor<ApiOptions> settings)
         {
             this.config = settings.CurrentValue;
+            this.genres = this.GetGenres();
 
         }
         public IEnumerable<Show> GetPopularShows()
@@ -25,7 +27,12 @@ namespace DotNetMovieCore.Services
             try
             {
                 var service = RestService.For<IRefitShowService>(config.BaseUrl);
-                return service.GetPopularShows(config.ApiKey).Result.results;
+                var results = service.GetPopularShows(config.ApiKey).Result.results;
+                foreach(var show in results)
+                {
+                    show.GetGenreString(this.genres);
+                }
+                return results;
             }
             catch (Exception e)
             {
@@ -39,7 +46,13 @@ namespace DotNetMovieCore.Services
             try
             {
                 var service = RestService.For<IRefitShowService>(config.BaseUrl);
-                return service.GetTopRatedShows(config.ApiKey).Result.results;
+                var results = service.GetTopRatedShows(config.ApiKey).Result.results;
+                foreach (var show in results)
+                {
+                    show.GetGenreString(this.genres);
+                }
+                return results;
+                
             }
             catch (Exception e)
             {
@@ -67,7 +80,13 @@ namespace DotNetMovieCore.Services
             try
             {
                 var service = RestService.For<IRefitShowService>(config.BaseUrl);
-                return service.GetNowAiring(config.ApiKey).Result.results;
+                var results = service.GetNowAiring(config.ApiKey).Result.results;
+                foreach (var show in results)
+                {
+                    show.GetGenreString(this.genres);
+                }
+                return results;
+                
             }
             catch (Exception e)
             {

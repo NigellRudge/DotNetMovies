@@ -16,10 +16,12 @@ namespace DotNetMovieCore.Services
     public class MovieService : IMovieService
     {
         private ApiOptions config;
+        private IEnumerable<Genre> genres;
 
         public MovieService(IOptionsMonitor<ApiOptions> settings)
         {
             this.config = settings.CurrentValue;
+            this.genres = this.GetMovieGenres();
             
         }
         public MovieInfo Get(int id)
@@ -27,6 +29,7 @@ namespace DotNetMovieCore.Services
             try
             {
                 var service = RestService.For<IRefitMovieService>(config.BaseUrl);
+                var results = service.GetMovieInfo(id, config.ApiKey).Result;
                 return service.GetMovieInfo(id,config.ApiKey).Result;
             }
             catch(Exception e)
@@ -42,7 +45,12 @@ namespace DotNetMovieCore.Services
             try
             {
                 var service = RestService.For<IRefitMovieService>(config.BaseUrl);
-                return service.GetAllMovies(config.ApiKey).Result.results;
+                var results = service.GetAllMovies(config.ApiKey).Result.results;
+                foreach (var movie in results)
+                {
+                    movie.GetGenreString(this.genres);
+                }
+                return results;
             }
             catch (Exception e)
             {
@@ -56,7 +64,12 @@ namespace DotNetMovieCore.Services
             try
             {
                 var service = RestService.For<IRefitMovieService>(config.BaseUrl);
-                return service.GetNowPlayingMovies(config.ApiKey).Result.results;
+                var results = service.GetNowPlayingMovies(config.ApiKey).Result.results;
+                foreach(var movie in results)
+                {
+                    movie.GetGenreString(this.genres);
+                }
+                return results;
             }
             catch (Exception e)
             {
@@ -70,7 +83,12 @@ namespace DotNetMovieCore.Services
             try
             {
                 var service = RestService.For<IRefitMovieService>(config.BaseUrl);
-                return service.GetAllMovies(config.ApiKey).Result.results;
+                var results = service.GetAllMovies(config.ApiKey).Result.results;
+                foreach (var movie in results)
+                {
+                    movie.GetGenreString(this.genres);
+                }
+                return results;
             }
             catch (Exception e)
             {

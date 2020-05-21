@@ -1,6 +1,7 @@
 ﻿using DotNetMovieCore.config;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace DotNetMovieCore.Models
@@ -20,6 +21,7 @@ namespace DotNetMovieCore.Models
         public double vote_average { get; set; }
         public string overview { get; set; }
         public string poster_path { get; set; }
+        public string genreString { get; set; }
 
         public string getPosterPath()
         {
@@ -31,5 +33,27 @@ namespace DotNetMovieCore.Models
             return Config.MEDIA_URL + this.backdrop_path;
         }
 
+        public void GetGenreString(IEnumerable<Genre> genres)
+        {
+
+            foreach (var genre_id in this.genre_ids)
+            {
+                foreach (var genre in genres)
+                {
+                    if (genre_id == genre.id)
+                    {
+                        if (genre_id == this.genre_ids.Last())
+                        {
+                            this.genreString += genre.name;
+                        }
+                        else
+                        {
+                            this.genreString += genre.name + ", ";
+                        }
+                    }
+                }
+            }
+
+        }
     }
 }

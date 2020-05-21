@@ -31,7 +31,13 @@ namespace DotNetMovies.Controllers
         [Route("Details/{actorId}")]
         public IActionResult Details(int actorId)
         {
-            return View();
+            var model = new ActorDetailViewmodel()
+            {
+                actor = this.service.GetActorInfo(actorId),
+                images = this.service.GetActorImages(actorId),
+                roles = this.service.GetActorCredits(actorId).cast
+            };
+            return View(model);
         }
     }
 }
