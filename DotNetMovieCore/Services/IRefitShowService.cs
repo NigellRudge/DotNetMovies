@@ -9,40 +9,43 @@ namespace DotNetMovieCore.Services
 {
     public interface IRefitShowService
     {
-        [Get("/tv/on_the_air?api_key=a28d205a378cece6baa18ba20119765b&language=en-US")]
-        Task<ShowResult> GetNowAiring();
+        [Get("/tv/on_the_air?language=en-US")]
+        Task<ShowResult> GetNowAiring(string api_key);
 
-        [Get("/tv/top_rated?api_key=a28d205a378cece6baa18ba20119765b&language=en-US")]
-        Task<ShowResult> GetPopularShows();
+        [Get("/tv/top_rated?language=en-US")]
+        Task<ShowResult> GetPopularShows(string api_key);
 
-        [Get("/tv/{showId}?api_key=a28d205a378cece6baa18ba20119765b&language=en-US")]
-        Task<ShowInfo> GetShowInfo(int showId);
+        [Get("/tv/{showId}?language=en-US")]
+        Task<ShowInfo> GetShowInfo(int showId, string api_key);
 
-        [Get("/tv/top_rated?api_key=a28d205a378cece6baa18ba20119765b&language=en-US&")]
-        Task<ShowResult> GetTopRatedShows();
+        [Get("/tv/top_rated")]
+        Task<ShowResult> GetTopRatedShows(string api_key);
 
-        [Get("/tv/{showId}/credits?api_key=a28d205a378cece6baa18ba20119765b&language=en-US")]
-        Task<CreditsResult> GetShowCredits(int showId);
+        [Get("/tv/{showId}/credits?language=en-US")]
+        Task<CreditsResult> GetShowCredits(int showId, string api_key);
 
-        [Get("/tv/{showId}/images?api_key=a28d205a378cece6baa18ba20119765b")]
-        Task<ImageResult> GetImages(int showId);
+        [Get("/tv/{showId}/images")]
+        Task<ImageResult> GetImages(int showId, string api_key);
 
-        [Get("/genre/tv/list?api_key=a28d205a378cece6baa18ba20119765b&language=en-US")]
-        Task<GenreResult> GetGenres();
+        [Get("/genre/tv/list?language=en-US")]
+        Task<GenreResult> GetGenres(string api_key);
 
-        [Get("/tv/{showId}/season/{seasonId}?api_key=a28d205a378cece6baa18ba20119765b&language=en-US")]
-        Task<SeasonInfo> GetSeasonInfo(int showId, int seasonId);
+        [Get("/tv/{showId}/season/{seasonId}?language=en-US")]
+        Task<SeasonInfo> GetSeasonInfo(int showId, int seasonId, string api_key);
 
-        [Get("/tv/{showId}/season/{seasonId}/images?api_key=a28d205a378cece6baa18ba20119765b")]
-        Task<ImageResult> GetSeasonImages(int showId, int seasonId);
+        [Get("/tv/{showId}/season/{seasonId}/images")]
+        Task<ImageResult> GetSeasonImages(int showId, int seasonId, string api_key);
 
-        [Get("/tv/{showId}/videos?api_key=a28d205a378cece6baa18ba20119765b&language=en-US")]
-        Task<VideoResult> GetShowTrailer(int showId);
+        [Get("/tv/{showId}/videos?language=en-US")]
+        Task<VideoResult> GetShowTrailer(int showId, string api_key);
 
-        [Get("/tv/{showId}/videos?api_key=a28d205a378cece6baa18ba20119765b&language=en-US")]
-        Task<VideoResult> GetSeasonTrailer(int showId);
+        [Get("/tv/{showId}/videos?language=en-US")]
+        Task<VideoResult> GetSeasonTrailer(int showId, string api_key);
 
-        [Get("/tv/{showId}/season/{seasonId}/episode/{episodeId}/images?api_key=a28d205a378cece6baa18ba20119765b&language=en-US")]
-        Task<ImageResult> GetEpisodeImages(int showId, int seasonId, int episodeId);
+        [Get("/tv/{showId}/season/{seasonId}/episode/{episodeId}/images?language=en-US")]
+        Task<EpisodeImageResult> GetEpisodeImages(int showId, int seasonId, int episodeId, string api_key);
+
+        [Get("/tv/{showId}/season/{seasonId}/episode/{episodeId}?language=en-US")]
+        Task<Episode> GetEpisodeInfo(int showId, int seasonId, int episodeId, string api_key);
     }
 }

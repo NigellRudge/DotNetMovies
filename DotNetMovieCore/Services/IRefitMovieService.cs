@@ -9,34 +9,34 @@ namespace DotNetMovieCore.Services
 {
     public interface IRefitMovieService
     {
-        [Get("/movie/top_rated?api_key=a28d205a378cece6baa18ba20119765b&language=en-US")]
-        Task<MovieResult> GetAllMovies();
+        [Get("/movie/top_rated?language=en-US")]
+        Task<MovieResult> GetAllMovies(string api_key);
 
-        [Get("/movie/now_playing?api_key=a28d205a378cece6baa18ba20119765b&language=en-US&page=1")]
-        Task<MovieResult> GetNowPlayingMovies();
+        [Get("/movie/now_playing?language=en-US&page=1")]
+        Task<MovieResult> GetNowPlayingMovies(string api_key);
 
-        [Get("/movie/{id}?api_key=a28d205a378cece6baa18ba20119765b&language=en-US")]
-        Task<MovieInfo> GetMovieInfo(int id);
+        [Get("/movie/{id}?language=en-US")]
+        Task<MovieInfo> GetMovieInfo(int id, string api_key);
 
-        [Get("/search/movie?api_key=a28d205a378cece6baa18ba20119765b&language=en-US&page=1&include_adult=false")]
-        Task<MovieResult> SearchMovie(string query);
+        [Get("/search/movie?language=en-US&include_adult=false")]
+        Task<MovieResult> SearchMovie(string api_key,string query);
 
-        [Get("/movie/{movieId}/credits?api_key=a28d205a378cece6baa18ba20119765b")]
-        Task<CreditsResult> GetCast(int movieId);
+        [Get("/movie/{movieId}/credits")]
+        Task<CreditsResult> GetCast(int movieId, string api_key);
 
-        [Get("/movie/{movieId}/credits?api_key=a28d205a378cece6baa18ba20119765b")]
-        Task<CreditsResult> GetCrew(int movieId);
+        [Get("/movie/{movieId}/credits")]
+        Task<CreditsResult> GetCrew(int movieId, string api_key);
 
-        [Get("/movie/{movieId}/images?api_key=a28d205a378cece6baa18ba20119765b")]
-        Task<ImageResult> GetMoviePosters(int movieId);
+        [Get("/movie/{movieId}/images")]
+        Task<ImageResult> GetMoviePosters(int movieId, string api_key);
 
-        [Get("/movie/{movieId}/images?api_key=a28d205a378cece6baa18ba20119765b")]
-        Task<ImageResult> GetMovieBackdrops(int movieId);
+        [Get("/movie/{movieId}/images")]
+        Task<ImageResult> GetMovieBackdrops(int movieId, string api_key);
 
-        [Get("/genre/movie/list?api_key=a28d205a378cece6baa18ba20119765b&language=en-US")]
-        Task<GenreResult> GetMovieGenres();
+        [Get("/genre/movie/list?language=en-US")]
+        Task<GenreResult> GetMovieGenres(string api_key);
         
-        [Get("/movie/{movieId}/videos?api_key=a28d205a378cece6baa18ba20119765b&language=en-US")]
-        Task<VideoResult> GetMovieTrailer(int movieId);
+        [Get("/movie/{movieId}/videos?language=en-US")]
+        Task<VideoResult> GetMovieTrailer(int movieId, string api_key);
     }
 }

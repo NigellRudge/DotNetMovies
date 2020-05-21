@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using DotNetMovieCore.Services;
+using DotNetMovies.Utils;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -32,6 +33,7 @@ namespace DotNetMovies
                 options.AddPolicy("AllowOrigin",
                     builder => builder.WithOrigins("http://localhost:44317"));
             });
+            services.Configure<ApiOptions>(Configuration.GetSection("ApiOptions"));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

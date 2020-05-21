@@ -1,4 +1,7 @@
-﻿using DotNetMovieCore.Models;
+﻿using DotNetMovieCore.config;
+using DotNetMovieCore.Models;
+using DotNetMovies.Utils;
+using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using Refit;
 using System;
@@ -12,71 +15,152 @@ namespace DotNetMovieCore.Services
 {
     public class MovieService : IMovieService
     {
-        private string BASE_URL = "https://api.themoviedb.org/3";
+        private ApiOptions config;
+
+        public MovieService(IOptionsMonitor<ApiOptions> settings)
+        {
+            this.config = settings.CurrentValue;
+            
+        }
         public MovieInfo Get(int id)
         {
-            var service = RestService.For<IRefitMovieService>(BASE_URL);
-            return service.GetMovieInfo(id).Result;
+            try
+            {
+                var service = RestService.For<IRefitMovieService>(config.BaseUrl);
+                return service.GetMovieInfo(id,config.ApiKey).Result;
+            }
+            catch(Exception e)
+            {
+                System.Diagnostics.Debug.WriteLine(e.Message);
+                return null;
+            }
+
         }
 
         public IEnumerable<Movie> GetAll(int page = 0)
         {
-            var service = RestService.For<IRefitMovieService>(BASE_URL);
-            return service.GetAllMovies().Result.results;
+            try
+            {
+                var service = RestService.For<IRefitMovieService>(config.BaseUrl);
+                return service.GetAllMovies(config.ApiKey).Result.results;
+            }
+            catch (Exception e)
+            {
+                System.Diagnostics.Debug.WriteLine(e.Message);
+                return null;
+            }
         }
 
         public IEnumerable<Movie> GetNowPlaying()
         {
-            var service = RestService.For<IRefitMovieService>(BASE_URL);
-            return service.GetNowPlayingMovies().Result.results;
+            try
+            {
+                var service = RestService.For<IRefitMovieService>(config.BaseUrl);
+                return service.GetNowPlayingMovies(config.ApiKey).Result.results;
+            }
+            catch (Exception e)
+            {
+                System.Diagnostics.Debug.WriteLine(e.Message);
+                return null;
+            }
         }
 
         public IEnumerable<Movie> GetTopMovies()
         {
-            var service = RestService.For<IRefitMovieService>(BASE_URL);
-            return service.GetAllMovies().Result.results;
-            
+            try
+            {
+                var service = RestService.For<IRefitMovieService>(config.BaseUrl);
+                return service.GetAllMovies(config.ApiKey).Result.results;
+            }
+            catch (Exception e)
+            {
+                System.Diagnostics.Debug.WriteLine(e.Message);
+                return null;
+            }
+
         }
 
         public IEnumerable<Movie> Search(string query)
         {
-            var service = RestService.For<IRefitMovieService>(BASE_URL);
-            var items = service.SearchMovie(query).Result.results;
-            return items;
+            try
+            {
+                var service = RestService.For<IRefitMovieService>(config.BaseUrl);
+                return service.SearchMovie(config.ApiKey,query).Result.results;
+            }
+            catch (Exception e)
+            {
+                System.Diagnostics.Debug.WriteLine(e.Message);
+                return null;
+            }
         }
 
         public IEnumerable<Cast> GetCast(int movieId)
         {
-            var service = RestService.For<IRefitMovieService>(BASE_URL);
-            var items = service.GetCast(movieId).Result.cast;
-            return items;
+            try
+            {
+                var service = RestService.For<IRefitMovieService>(config.BaseUrl);
+                return service.GetCast(movieId,config.ApiKey).Result.cast;
+            }
+            catch (Exception e)
+            {
+                System.Diagnostics.Debug.WriteLine(e.Message);
+                return null;
+            }
 
         }
         public IEnumerable<Crew> GetCrew(int movieId)
         {
-            var service = RestService.For<IRefitMovieService>(BASE_URL);
-            var items = service.GetCrew(movieId).Result.crew;
-            return items;
+            try
+            {
+                var service = RestService.For<IRefitMovieService>(config.BaseUrl);
+                return service.GetCrew(movieId, config.ApiKey).Result.crew;
+            }
+            catch (Exception e)
+            {
+                System.Diagnostics.Debug.WriteLine(e.Message);
+                return null;
+            }
         }
 
         public IEnumerable<Poster> GetMoviePosters(int movieId)
         {
-            var service = RestService.For<IRefitMovieService>(BASE_URL);
-            var items = service.GetMoviePosters(movieId).Result.posters;
-            return items;
+            try
+            {
+                var service = RestService.For<IRefitMovieService>(config.BaseUrl);
+                return service.GetMoviePosters(movieId, config.ApiKey).Result.posters;
+            }
+            catch (Exception e)
+            {
+                System.Diagnostics.Debug.WriteLine(e.Message);
+                return null;
+            }
         }
         public IEnumerable<Backdrop> GetBackDrops(int movieId)
         {
-             var service = RestService.For<IRefitMovieService>(BASE_URL);
-            var items = service.GetMovieBackdrops(movieId).Result.backdrops;
-            return items;
+            try
+            {
+                var service = RestService.For<IRefitMovieService>(config.BaseUrl);
+                return service.GetMovieBackdrops(movieId, config.ApiKey).Result.backdrops;
+            }
+            catch (Exception e)
+            {
+                System.Diagnostics.Debug.WriteLine(e.Message);
+                return null;
+            }
         }
         
         public IEnumerable<Genre> GetMovieGenres()
         {
-            var service = RestService.For<IRefitMovieService>(BASE_URL);
-            var items = service.GetMovieGenres().Result.genres;
-            return items;
+            try
+            {
+                var service = RestService.For<IRefitMovieService>(config.BaseUrl);
+                return service.GetMovieGenres(config.ApiKey).Result.genres;
+            }
+            catch (Exception e)
+            {
+                System.Diagnostics.Debug.WriteLine(e.Message);
+                return null;
+            }
         }
 
         public string GetGenreName(int id)
@@ -92,9 +176,20 @@ namespace DotNetMovieCore.Services
 
         public VideoItem GetMovieTrailer(int movieId)
         {
-            var service = RestService.For<IRefitMovieService>(BASE_URL);
-            var items = service.GetMovieTrailer(movieId).Result.results.ToList().First();
-            return items;
+            try
+            {
+                var service = RestService.For<IRefitMovieService>(config.BaseUrl);
+                return service.GetMovieTrailer(movieId,config.ApiKey).Result.results.ToList().First();
+            }
+            catch (Exception e)
+            {
+                System.Diagnostics.Debug.WriteLine(e.Message);
+                return null;
+            }
         }
+    }
+
+    public interface IOptions<T>
+    {
     }
 }

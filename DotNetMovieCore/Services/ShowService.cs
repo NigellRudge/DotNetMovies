@@ -1,4 +1,6 @@
 ﻿using DotNetMovieCore.Models;
+using DotNetMovies.Utils;
+using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using Refit;
 using System;
@@ -11,112 +13,238 @@ namespace DotNetMovieCore.Services
 {
     public class ShowService : IShowService
     {
-        private string BASE_URL = "https://api.themoviedb.org/3";
+        private ApiOptions config;
+
+        public ShowService(IOptionsMonitor<ApiOptions> settings)
+        {
+            this.config = settings.CurrentValue;
+
+        }
         public IEnumerable<Show> GetPopularShows()
         {
-
-            var service = RestService.For<IRefitShowService>(BASE_URL);
-            return service.GetPopularShows().Result.results;
+            try
+            {
+                var service = RestService.For<IRefitShowService>(config.BaseUrl);
+                return service.GetPopularShows(config.ApiKey).Result.results;
+            }
+            catch (Exception e)
+            {
+                System.Diagnostics.Debug.WriteLine(e.Message);
+                return null;
+            }
         }
 
         public IEnumerable<Show> GetTopRatedShows()
         {
-
-            var service = RestService.For<IRefitShowService>(BASE_URL);
-            return service.GetTopRatedShows().Result.results;
+            try
+            {
+                var service = RestService.For<IRefitShowService>(config.BaseUrl);
+                return service.GetTopRatedShows(config.ApiKey).Result.results;
+            }
+            catch (Exception e)
+            {
+                System.Diagnostics.Debug.WriteLine(e.Message);
+                return null;
+            }
         }
 
         public ShowInfo GetShowInfo(int showId)
         {
-            var service = RestService.For<IRefitShowService>(BASE_URL);
-            return service.GetShowInfo(showId).Result;
+            try
+            {
+                var service = RestService.For<IRefitShowService>(config.BaseUrl);
+                return service.GetShowInfo(showId, config.ApiKey).Result;
+            }
+            catch (Exception e)
+            {
+                System.Diagnostics.Debug.WriteLine(e.Message);
+                return null;
+            }
         }
 
         public IEnumerable<Show> GetNowAiring()
         {
-
-            var service = RestService.For<IRefitShowService>(BASE_URL);
-            return service.GetNowAiring().Result.results;
+            try
+            {
+                var service = RestService.For<IRefitShowService>(config.BaseUrl);
+                return service.GetNowAiring(config.ApiKey).Result.results;
+            }
+            catch (Exception e)
+            {
+                System.Diagnostics.Debug.WriteLine(e.Message);
+                return null;
+            }
         }
 
         public IEnumerable<Cast> GetShowCast(int showId)
         {
-             var service = RestService.For<IRefitShowService>(BASE_URL);
-            return service.GetShowCredits(showId).Result.cast;
+            try
+            {
+                var service = RestService.For<IRefitShowService>(config.BaseUrl);
+                return service.GetShowCredits(showId, config.ApiKey).Result.cast;
+            }
+            catch (Exception e)
+            {
+                System.Diagnostics.Debug.WriteLine(e.Message);
+                return null;
+            }
         }
 
         public IEnumerable<Crew> GetShowCrew(int showId)
         {
-
-            var service = RestService.For<IRefitShowService>(BASE_URL);
-            return service.GetShowCredits(showId).Result.crew;
+            try
+            {
+                var service = RestService.For<IRefitShowService>(config.BaseUrl);
+                return service.GetShowCredits(showId, config.ApiKey).Result.crew;
+            }
+            catch (Exception e)
+            {
+                System.Diagnostics.Debug.WriteLine(e.Message);
+                return null;
+            }
         }
 
         public IEnumerable<Poster> GetShowPosters(int showId)
         {
-             var service = RestService.For<IRefitShowService>(BASE_URL);
-            return service.GetImages(showId).Result.posters;
+            try
+            {
+                var service = RestService.For<IRefitShowService>(config.BaseUrl);
+                return service.GetImages(showId, config.ApiKey).Result.posters;
+            }
+            catch (Exception e)
+            {
+                System.Diagnostics.Debug.WriteLine(e.Message);
+                return null;
+            }
         }
 
         public IEnumerable<Backdrop> GetShowBackdrops(int showId)
         {
+            try
+            {
+                var service = RestService.For<IRefitShowService>(config.BaseUrl);
+                return service.GetImages(showId, config.ApiKey).Result.backdrops;
+            }
+            catch (Exception e)
+            {
+                System.Diagnostics.Debug.WriteLine(e.Message);
+                return null;
+            }
 
-            var service = RestService.For<IRefitShowService>(BASE_URL);
-            return service.GetImages(showId).Result.backdrops;
         }
 
         public IEnumerable<Genre> GetGenres()
         {
-
-            var service = RestService.For<IRefitShowService>(BASE_URL);
-            return service.GetGenres().Result.genres;
+            try
+            {
+                var service = RestService.For<IRefitShowService>(config.BaseUrl);
+                return service.GetGenres(config.ApiKey).Result.genres;
+            }
+            catch (Exception e)
+            {
+                System.Diagnostics.Debug.WriteLine(e.Message);
+                return null;
+            }
         }
 
         public SeasonInfo GetSeasonInfo(int showId, int seasonId)
         {
-            var service = RestService.For<IRefitShowService>(BASE_URL);
-            return service.GetSeasonInfo(showId, seasonId).Result;
+            try
+            {
+                var service = RestService.For<IRefitShowService>(config.BaseUrl);
+                return service.GetSeasonInfo(showId, seasonId, config.ApiKey).Result;
+            }
+            catch (Exception e)
+            {
+                System.Diagnostics.Debug.WriteLine(e.Message);
+                return null;
+            }
         }
 
         public IEnumerable<Backdrop> GetSeasonBackdrops(int showId, int seasonId)
         {
-            var service = RestService.For<IRefitShowService>(BASE_URL);
-            return service.GetSeasonImages(showId, seasonId).Result.backdrops;
+            try
+            {
+                var service = RestService.For<IRefitShowService>(config.BaseUrl);
+                return service.GetSeasonImages(showId, seasonId, config.ApiKey).Result.backdrops;
+            }
+            catch (Exception e)
+            {
+                System.Diagnostics.Debug.WriteLine(e.Message);
+                return null;
+            }
         }
 
         public IEnumerable<Poster> GetSeasonPosters(int showId, int seasonId)
         {
-            var service = RestService.For<IRefitShowService>(BASE_URL);
-            return service.GetSeasonImages(showId, seasonId).Result.posters;
+            try
+            {
+                var service = RestService.For<IRefitShowService>(config.BaseUrl);
+                return service.GetSeasonImages(showId, seasonId, config.ApiKey).Result.posters;
+            }
+            catch (Exception e)
+            {
+                System.Diagnostics.Debug.WriteLine(e.Message);
+                return null;
+            }
         }
 
         public Episode GetEpisodeInfo(int showId, int seasonId, int episodeId)
         {
-            var url = $"https://api.themoviedb.org/3/tv/{showId}/season/{seasonId}/episode/{episodeId}?api_key=a28d205a378cece6baa18ba20119765b&language=en-US";
-            var result = new HttpClient().GetAsync(url).Result;
-            var body = result.Content.ReadAsStringAsync().Result;
-            var item = JsonConvert.DeserializeObject<Episode>(body);
-            return item;
+            try
+            {
+                var service = RestService.For<IRefitShowService>(config.BaseUrl);
+                return service.GetEpisodeInfo(showId,seasonId,episodeId,config.ApiKey).Result;
+            }
+            catch (Exception e)
+            {
+                System.Diagnostics.Debug.WriteLine(e.Message);
+                return null;
+            }
         }
         public VideoItem GetShowTrailer(int showId)
         {
-            var service = RestService.For<IRefitShowService>(BASE_URL);
-            return service.GetShowTrailer(showId).Result.results.First();
+            try
+            {
+                var service = RestService.For<IRefitShowService>(config.BaseUrl);
+                return service.GetShowTrailer(showId, config.ApiKey).Result.results.First();
+            }
+            catch (Exception e)
+            {
+                System.Diagnostics.Debug.WriteLine(e.Message);
+                return null;
+            }
+
         }
 
         public VideoItem GetSeasonTrailer(int showId)
         {
-            var service = RestService.For<IRefitShowService>(BASE_URL);
-            return service.GetSeasonTrailer(showId).Result.results.First();
+            try
+            {
+                var service = RestService.For<IRefitShowService>(config.BaseUrl);
+                return service.GetSeasonTrailer(showId, config.ApiKey).Result.results.First();
+            }
+            catch (Exception e)
+            {
+                System.Diagnostics.Debug.WriteLine(e.Message);
+                return null;
+            }
+
         }
 
         public IEnumerable<Still> GetEpisodeImages(int showId, int seasonId, int episodeId)
         {
-            var url = $"https://api.themoviedb.org/3/tv/{showId}/season/{seasonId}/episode/{episodeId}/images?api_key=a28d205a378cece6baa18ba20119765b&language=en-US";
-            var result = new HttpClient().GetAsync(url).Result;
-            var body = result.Content.ReadAsStringAsync().Result;
-            var item = JsonConvert.DeserializeObject<EpisodeImageResult>(body);
-            return item.stills;
+            try 
+            {
+                var service = RestService.For<IRefitShowService>(config.BaseUrl);
+                return service.GetEpisodeImages(showId, seasonId, episodeId, config.ApiKey).Result.stills;
+            }
+            catch(Exception e)
+            {
+                System.Diagnostics.Debug.WriteLine(e.Message);
+                return null;
+            }
+            
         }
 
     }
