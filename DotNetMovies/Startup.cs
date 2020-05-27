@@ -53,7 +53,7 @@ namespace DotNetMovies
                 app.UseHsts();
             }
             app.UseHttpsRedirection();
-            app.UseStaticFiles(new StaticFileOptions
+            app.UseStaticFiles();/* new StaticFileOptions
             {
                 OnPrepareResponse = (context) =>
                 {
@@ -65,7 +65,7 @@ namespace DotNetMovies
                         MaxAge = TimeSpan.FromDays(365)
                     };
                 }
-            });
+            });*/
 
             app.UseRouting();
             app.UseCors();

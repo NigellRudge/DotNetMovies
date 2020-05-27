@@ -20,7 +20,7 @@ namespace DotNetMovies.Controllers
             MovieService = movieService;
         }
 
-        [ResponseCache(Duration =60*5)]
+        //[ResponseCache(Duration =60*5)]
         [Route("index")]
         [Route("")]
         public async Task<IActionResult> Index()
@@ -33,7 +33,7 @@ namespace DotNetMovies.Controllers
             };
             return View(model);
         }
-        [ResponseCache(Duration = 60 * 5)]
+        //[ResponseCache(Duration = 60 * 5)]
         [Route("Details/{movieId}")]
         public async Task<IActionResult> Details(int movieId)
         {
@@ -41,7 +41,7 @@ namespace DotNetMovies.Controllers
             {
                 movie =  await this.MovieService.GetMovieInfoLong(movieId),
                 posters = (await this.MovieService.GetMoviePosters(movieId)).ToList(),
-                trailer = this.MovieService.GetMovieTrailer(movieId)
+                trailer = await this.MovieService.GetMovieTrailer(movieId)
              
             };
             return View(model);

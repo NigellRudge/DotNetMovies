@@ -192,12 +192,12 @@ namespace DotNetMovieCore.Services
             return output;
         }
 
-        public VideoItem GetMovieTrailer(int movieId)
+        public async Task<VideoItem> GetMovieTrailer(int movieId)
         {
             try
             {
                 var service = RestService.For<IRefitMovieService>(config.BaseUrl);
-                return service.GetMovieTrailer(movieId,config.ApiKey).Result.results.ToList().First();
+                return (await service.GetMovieTrailer(movieId,config.ApiKey)).results.ToList().First();
             }
             catch (Exception e)
             {

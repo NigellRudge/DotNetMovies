@@ -19,6 +19,6 @@ namespace DotNetMovieCore.Services
         Task<string> GetGenreName(int id);
 
         Task<MovieInfoLong> GetMovieInfoLong(int id);
-        VideoItem GetMovieTrailer(int movieId);
+        Task<VideoItem> GetMovieTrailer(int movieId);
     }
 }
