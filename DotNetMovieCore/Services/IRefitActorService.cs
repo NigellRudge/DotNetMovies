@@ -10,10 +10,10 @@ namespace DotNetMovieCore.Services
     public interface IRefitActorService
     {
 
-        [Get("/person/{actorId}/movie_credits?language=en-US")]
+        [Get("/person/{actorId}/movie_credits")]
         Task<ActorCreditResult> GetActorCredits(int actorId,string api_key);
 
-        [Get("/person/3223/tagged_imageslanguage=en-US&page=1")]
+        [Get("/person/{actorId}/tagged_images")]
         Task<ActorImageResult> GetActorImages(int actorId, string api_key);
 
         [Get("/person/{actorId}?language=en-US")]

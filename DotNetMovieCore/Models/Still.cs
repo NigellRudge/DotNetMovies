@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DotNetMovieCore.config;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -13,5 +14,17 @@ namespace DotNetMovieCore.Models
         public double vote_average { get; set; }
         public int vote_count { get; set; }
         public int width { get; set; }
+        public string GetFilePath()
+        {
+            if(this.file_path == null)
+            {
+                return null;
+            }
+            else
+            {
+                return Config.MEDIA_URL + this.file_path;
+            }
+            
+        }
     }
 }

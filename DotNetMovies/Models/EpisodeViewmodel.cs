@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace DotNetMovies.Models
 {
-    public class ActorDetailViewmodel
+    public class EpisodeViewmodel
     {
-        public ActorInfo actor;
-        public IEnumerable<ActorImage> images;
-        public List<ActorCastCredit> roles;
+        public Episode episode;
+        public List<Still> images;
+        public VideoItem trailer;
     }
 }

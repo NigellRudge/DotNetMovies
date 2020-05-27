@@ -45,5 +45,6 @@ namespace DotNetMovieCore.Models
         {
             return Config.MEDIA_URL + this.backdrop_path;
         }
+
     }
 }

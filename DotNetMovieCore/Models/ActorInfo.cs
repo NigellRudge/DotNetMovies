@@ -12,7 +12,7 @@ namespace DotNetMovieCore.Models
         public string deathday { get; set; }
         public int id { get; set; }
         public string name { get; set; }
-        public IList<string> also_known_as { get; set; }
+        public List<string> also_known_as { get; set; }
         public int gender { get; set; }
         public string biography { get; set; }
         public double popularity { get; set; }
@@ -25,6 +25,31 @@ namespace DotNetMovieCore.Models
         public string getProfilePath()
         {
             return Config.MEDIA_URL + this.profile_path;
+        }
+
+        public int GetAge()
+        {
+            var today = DateTime.Now;
+            var birthDate = DateTime.Parse(this.birthday);
+            var age = today.Year - birthDate.Year;
+            return age;
+        }
+        public string GetOccupasion()
+        {
+            if (this.known_for_department.ToLower() == "acting")
+            {
+                return this.gender == 2 ? "Actor" : "Actress";
+            }
+            else
+            {
+                return this.known_for_department;
+            }
+        }
+
+        public List<String> GetOtherNames()
+        {
+            var count = this.also_known_as.Count >= 4 ? 4 : this.also_known_as.Count;
+            return this.also_known_as.GetRange(0, count);
         }
 
     }

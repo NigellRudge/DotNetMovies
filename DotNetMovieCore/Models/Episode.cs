@@ -25,5 +25,30 @@ namespace DotNetMovieCore.Models
         {
             return this.still_path == null ? null : Config.MEDIA_URL + this.still_path;
         }
+
+        public string GetEpisodeString()
+        {
+            var output = "";
+            var season = "";
+            var episode = "";
+            if(this.season_number < 10)
+            {
+                season = "S0" + Convert.ToString(this.season_number);
+            }
+            else
+            {
+                season = "S" + Convert.ToString(this.season_number);
+            }
+            if(this.episode_number < 10)
+            {
+                episode = "E0" + Convert.ToString(this.episode_number);
+            }
+            else
+            {
+                episode = "E" + Convert.ToString(this.episode_number);
+            }
+            output = season + episode;
+            return output;
+        }
     }
 }

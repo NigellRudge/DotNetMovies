@@ -32,5 +32,19 @@ namespace DotNetMovieCore.Models
             }
             return output;
         }
+
+        public string GetOccupasion()
+        {
+            if (this.known_for_department.ToLower() == "acting")
+            {
+                return this.gender == 2 ? "Actor" : "Actress";
+            }
+            else
+            {
+                return this.known_for_department;
+            }
+        }
+
+
     }
 }

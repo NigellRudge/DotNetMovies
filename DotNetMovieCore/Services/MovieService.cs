@@ -16,7 +16,7 @@ namespace DotNetMovieCore.Services
     public class MovieService : IMovieService
     {
         private ApiOptions config;
-        private IEnumerable<Genre> genres;
+        private Task<IEnumerable<Genre>> genres;
 
         public MovieService(IOptionsMonitor<ApiOptions> settings)
         {
@@ -24,13 +24,13 @@ namespace DotNetMovieCore.Services
             this.genres = this.GetMovieGenres();
             
         }
-        public MovieInfo Get(int id)
+        public async Task<MovieInfo> Get(int id)
         {
             try
             {
                 var service = RestService.For<IRefitMovieService>(config.BaseUrl);
-                var results = service.GetMovieInfo(id, config.ApiKey).Result;
-                return service.GetMovieInfo(id,config.ApiKey).Result;
+                var result = await service.GetMovieInfo(id, config.ApiKey);
+                return result;
             }
             catch(Exception e)
             {
@@ -40,7 +40,7 @@ namespace DotNetMovieCore.Services
 
         }
 
-        public IEnumerable<Movie> GetAll(int page = 0)
+        public async Task<IEnumerable<Movie>> GetAll(int page = 0)
         {
             try
             {
@@ -48,7 +48,7 @@ namespace DotNetMovieCore.Services
                 var results = service.GetAllMovies(config.ApiKey).Result.results;
                 foreach (var movie in results)
                 {
-                    movie.GetGenreString(this.genres);
+                    movie.GetGenreString(await this.genres);
                 }
                 return results;
             }
@@ -59,15 +59,15 @@ namespace DotNetMovieCore.Services
             }
         }
 
-        public IEnumerable<Movie> GetNowPlaying()
+        public async Task<IEnumerable<Movie>> GetNowPlaying()
         {
             try
             {
                 var service = RestService.For<IRefitMovieService>(config.BaseUrl);
-                var results = service.GetNowPlayingMovies(config.ApiKey).Result.results;
+                var results = (await service.GetNowPlayingMovies(config.ApiKey)).results;
                 foreach(var movie in results)
                 {
-                    movie.GetGenreString(this.genres);
+                    movie.GetGenreString(await this.genres);
                 }
                 return results;
             }
@@ -78,15 +78,15 @@ namespace DotNetMovieCore.Services
             }
         }
 
-        public IEnumerable<Movie> GetTopMovies()
+        public async Task<IEnumerable<Movie>> GetTopMovies()
         {
             try
             {
                 var service = RestService.For<IRefitMovieService>(config.BaseUrl);
-                var results = service.GetAllMovies(config.ApiKey).Result.results;
+                var results = (await service.GetAllMovies(config.ApiKey)).results;
                 foreach (var movie in results)
                 {
-                    movie.GetGenreString(this.genres);
+                    movie.GetGenreString(await this.genres);
                 }
                 return results;
             }
@@ -98,12 +98,12 @@ namespace DotNetMovieCore.Services
 
         }
 
-        public IEnumerable<Movie> Search(string query)
+        public async Task<IEnumerable<Movie>> Search(string query)
         {
             try
             {
                 var service = RestService.For<IRefitMovieService>(config.BaseUrl);
-                return service.SearchMovie(config.ApiKey,query).Result.results;
+                return (await service.SearchMovie(config.ApiKey,query)).results;
             }
             catch (Exception e)
             {
@@ -112,12 +112,12 @@ namespace DotNetMovieCore.Services
             }
         }
 
-        public IEnumerable<Cast> GetCast(int movieId)
+        public async Task<IEnumerable<Cast>> GetCast(int movieId)
         {
             try
             {
                 var service = RestService.For<IRefitMovieService>(config.BaseUrl);
-                return service.GetCast(movieId,config.ApiKey).Result.cast;
+                return (await service.GetCast(movieId,config.ApiKey)).cast;
             }
             catch (Exception e)
             {
@@ -126,12 +126,12 @@ namespace DotNetMovieCore.Services
             }
 
         }
-        public IEnumerable<Crew> GetCrew(int movieId)
+        public async Task<IEnumerable<Crew>> GetCrew(int movieId)
         {
             try
             {
                 var service = RestService.For<IRefitMovieService>(config.BaseUrl);
-                return service.GetCrew(movieId, config.ApiKey).Result.crew;
+                return (await service.GetCrew(movieId, config.ApiKey)).crew;
             }
             catch (Exception e)
             {
@@ -140,12 +140,12 @@ namespace DotNetMovieCore.Services
             }
         }
 
-        public IEnumerable<Poster> GetMoviePosters(int movieId)
+        public async Task<IEnumerable<Poster>> GetMoviePosters(int movieId)
         {
             try
             {
                 var service = RestService.For<IRefitMovieService>(config.BaseUrl);
-                return service.GetMoviePosters(movieId, config.ApiKey).Result.posters;
+                return (await service.GetMoviePosters(movieId, config.ApiKey)).posters;
             }
             catch (Exception e)
             {
@@ -153,12 +153,12 @@ namespace DotNetMovieCore.Services
                 return null;
             }
         }
-        public IEnumerable<Backdrop> GetBackDrops(int movieId)
+        public async Task<IEnumerable<Backdrop>> GetBackDrops(int movieId)
         {
             try
             {
                 var service = RestService.For<IRefitMovieService>(config.BaseUrl);
-                return service.GetMovieBackdrops(movieId, config.ApiKey).Result.backdrops;
+                return (await service.GetMovieBackdrops(movieId, config.ApiKey)).backdrops;
             }
             catch (Exception e)
             {
@@ -167,12 +167,12 @@ namespace DotNetMovieCore.Services
             }
         }
         
-        public IEnumerable<Genre> GetMovieGenres()
+        public async Task<IEnumerable<Genre>> GetMovieGenres()
         {
             try
             {
                 var service = RestService.For<IRefitMovieService>(config.BaseUrl);
-                return service.GetMovieGenres(config.ApiKey).Result.genres;
+                return  (await service.GetMovieGenres(config.ApiKey)).genres;
             }
             catch (Exception e)
             {
@@ -181,10 +181,10 @@ namespace DotNetMovieCore.Services
             }
         }
 
-        public string GetGenreName(int id)
+        public async Task<string> GetGenreName(int id)
         {
             var output = "";
-            foreach(var item in this.GetMovieGenres())
+            foreach(var item in await this.GetMovieGenres())
             {
                 if (item.id == id)
                     output = item.name;
@@ -205,9 +205,19 @@ namespace DotNetMovieCore.Services
                 return null;
             }
         }
+        public async Task<MovieInfoLong> GetMovieInfoLong(int movieId)
+        {
+            try
+            {
+                var service = RestService.For<IRefitMovieService>(config.BaseUrl);
+                return (await service.GetMovieInfoLong(movieId, config.ApiKey));
+            }
+            catch (Exception e)
+            {
+                System.Diagnostics.Debug.WriteLine(e.Message);
+                return null;
+            }
+        }
     }
 
-    public interface IOptions<T>
-    {
-    }
 }

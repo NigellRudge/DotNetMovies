@@ -1,0 +1,14 @@
+﻿@model DotNetMovieCore.Models.Cast
+
+
+<div class="mt-8">
+    <a asp-controller="Actors" asp-action="Details" asp-route-id="@Model.id">
+        <img src="@Model.getProfilePath()" alt="actor1" class="hover:opacity-75 transition ease-in-out duration-150">
+    </a>
+    <div class="mt-2">
+        <a asp-controller="Actors" asp-action="Details" asp-route-id="@Model.id" class="text-lg mt-2 hover:text-gray:300">@Model.name</a>
+        <div class="text-sm text-gray-400">
+            @Model.character
+        </div>
+    </div>
+</div>

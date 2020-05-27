@@ -6,6 +6,7 @@ using System.Text;
 using DotNetMovieCore.config;
 using DotNetMovies.Utils;
 using Microsoft.Extensions.Options;
+using System.Threading.Tasks;
 
 namespace DotNetMovieCore.Services
 {
@@ -18,11 +19,11 @@ namespace DotNetMovieCore.Services
             this.config = settings.CurrentValue;
 
         }
-        public ActorCreditResult GetActorCredits(int actorId)
+        public async Task<ActorCreditResult> GetActorCredits(int actorId)
         {
             try{
                 var service = RestService.For<IRefitActorService>(config.BaseUrl);
-                return service.GetActorCredits(actorId,config.ApiKey).Result;
+                return  await service.GetActorCredits(actorId,config.ApiKey);
             }
             catch(Exception e)
             {
@@ -31,12 +32,12 @@ namespace DotNetMovieCore.Services
             }
         }
 
-        public IEnumerable<ActorImage> GetActorImages(int actorId)
+        public async Task<IEnumerable<ActorImage>> GetActorImages(int actorId)
         {
             try
             {
                 var service = RestService.For<IRefitActorService>(config.BaseUrl);
-                return service.GetActorImages(actorId, config.ApiKey).Result.results;
+                return (await service.GetActorImages(actorId, config.ApiKey)).results;
             }
             catch (Exception e)
             {
@@ -45,12 +46,12 @@ namespace DotNetMovieCore.Services
             }
         }
 
-        public ActorInfo GetActorInfo(int actorId)
+        public async Task<ActorInfo> GetActorInfo(int actorId)
         {
             try
             {
                 var service = RestService.For<IRefitActorService>(config.BaseUrl);
-                return service.GetActorInfo(actorId, config.ApiKey).Result;
+                return await service.GetActorInfo(actorId, config.ApiKey);
             }
             catch (Exception e)
             {
@@ -59,12 +60,12 @@ namespace DotNetMovieCore.Services
             }
         }
 
-        public IEnumerable<Actor> GetActors(int page = 1)
+        public async Task<IEnumerable<Actor>> GetActors(int page = 1)
         {       
             try
             {
                 var service = RestService.For<IRefitActorService>(config.BaseUrl);
-                return service.GetAllActors(page, config.ApiKey).Result.results;
+                return (await service.GetAllActors(page, config.ApiKey)).results;
             }
             catch (Exception e)
             {

@@ -6,10 +6,12 @@ using DotNetMovieCore.Services;
 using DotNetMovies.Utils;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Net.Http.Headers;
 
 namespace DotNetMovies
 {
@@ -26,6 +28,7 @@ namespace DotNetMovies
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+            services.AddResponseCaching();
             services.AddScoped<IMovieService, MovieService>();
             services.AddScoped<IShowService, ShowService>();
             services.AddScoped<IActorService, ActorService>();
@@ -50,7 +53,19 @@ namespace DotNetMovies
                 app.UseHsts();
             }
             app.UseHttpsRedirection();
-            app.UseStaticFiles();
+            app.UseStaticFiles(new StaticFileOptions
+            {
+                OnPrepareResponse = (context) =>
+                {
+                    var headers = context.Context.Response.GetTypedHeaders();
+
+                    headers.CacheControl = new CacheControlHeaderValue
+                    {
+                        Public = true,
+                        MaxAge = TimeSpan.FromDays(365)
+                    };
+                }
+            });
 
             app.UseRouting();
             app.UseCors();

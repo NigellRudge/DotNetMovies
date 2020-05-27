@@ -8,7 +8,7 @@ namespace DotNetMovies.Models
 {
     public class DetailViewModel
     {
-        public MovieInfo movie;
+        public MovieInfoLong movie;
         public List<Cast> cast;
         public List<Crew> crew;
         public List<Backdrop> backdrops;

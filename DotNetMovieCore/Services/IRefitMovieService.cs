@@ -38,5 +38,8 @@ namespace DotNetMovieCore.Services
         
         [Get("/movie/{movieId}/videos?language=en-US")]
         Task<VideoResult> GetMovieTrailer(int movieId, string api_key);
+
+        [Get("/movie/{movieId}?append_to_response=images,credits")]
+        Task<MovieInfoLong> GetMovieInfoLong(int movieId, string api_key);
     }
 }

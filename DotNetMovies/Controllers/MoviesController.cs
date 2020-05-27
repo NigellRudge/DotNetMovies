@@ -20,38 +20,39 @@ namespace DotNetMovies.Controllers
             MovieService = movieService;
         }
 
+        [ResponseCache(Duration =60*5)]
         [Route("index")]
         [Route("")]
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
             var model = new HomeViewModel()
             {
-                NowPlayingMovies = this.MovieService.GetNowPlaying(),
-                TopRatedMovies = this.MovieService.GetTopMovies(),
-                genres = this.MovieService.GetMovieGenres()
+                NowPlayingMovies = await this.MovieService.GetNowPlaying(),
+                TopRatedMovies = await this.MovieService.GetTopMovies(),
+                genres = await this.MovieService.GetMovieGenres()
             };
             return View(model);
         }
+        [ResponseCache(Duration = 60 * 5)]
         [Route("Details/{movieId}")]
-        public IActionResult Details(int movieId)
+        public async Task<IActionResult> Details(int movieId)
         {
             var model = new DetailViewModel()
             {
-                movie = this.MovieService.Get(movieId),
-                cast = this.MovieService.GetCast(movieId).ToList().GetRange(0, 10),
-                crew = this.MovieService.GetCrew(movieId).ToList().GetRange(0, 5),
-                backdrops = this.MovieService.GetBackDrops(movieId).ToList(),
-                posters = this.MovieService.GetMoviePosters(movieId).ToList(),
+                movie =  await this.MovieService.GetMovieInfoLong(movieId),
+                posters = (await this.MovieService.GetMoviePosters(movieId)).ToList(),
                 trailer = this.MovieService.GetMovieTrailer(movieId)
              
             };
             return View(model);
         }
         [Route("Search")]
-        public JsonResult Search(string query)
+        public async Task<JsonResult> Search(string query)
         {
-            var result = this.MovieService.Search(query).ToList();
+            var result = (await this.MovieService.Search(query)).ToList();
             return Json(result.Count > 10 ? result.GetRange(1, 10) : result);
         }
+
+
     }
 }

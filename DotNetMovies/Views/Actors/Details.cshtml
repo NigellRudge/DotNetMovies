@@ -14,9 +14,9 @@
                 <svg class="fill-current text-orange-500 w-4" viewBox="0 0 24 24"><g data-name="Layer 2"><path d="M17.56 21a1 1 0 01-.46-.11L12 18.22l-5.1 2.67a1 1 0 01-1.45-1.06l1-5.63-4.12-4a1 1 0 01-.25-1 1 1 0 01.81-.68l5.7-.83 2.51-5.13a1 1 0 011.8 0l2.54 5.12 5.7.83a1 1 0 01.81.68 1 1 0 01-.25 1l-4.12 4 1 5.63a1 1 0 01-.4 1 1 1 0 01-.62.18z" data-name="star" /></g></svg>
                 <span class="ml-1">@Model.actor.popularity</span>
                 <span class="mx-2">|</span>
-                <span>@Model.actor.birthday</span>
+                <span>@Model.actor.GetAge() years old</span>
                 <span class="mx-2">|</span>
-                <span>@Model.actor.known_for_department</span>
+                <span>@Model.actor.GetOccupasion()</span>
 
             </div>
 
@@ -25,9 +25,9 @@
             </p>
 
             <div class="mt-12">
-                <h4 class="text-white font-semibold">Featured Crew</h4>
+                <h4 class="text-orange-500 font-semibold ">Also Known as</h4>
                 <div class="flex mt-4">
-                    @foreach (var name in Model.actor.also_known_as)
+                    @foreach (var name in Model.actor.GetOtherNames())
                     {
                         <div class="mr-8">
                             <div>@name</div>
@@ -42,21 +42,11 @@
 
 <div class="movie-cast border-b border-gray-800">
     <div class="container mx-auto px-4 py-16">
-        <h2 class="text-4xl font-semibold">Cast</h2>
+        <h2 class="text-4xl font-semibold text-orange-500">Popular Roles</h2>
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8">
             @foreach (var role in Model.roles)
             {
-                <div class="mt-8">
-                    <a href="#">
-                        <img src="@role.getPosterPath()" alt="actor1" class="hover:opacity-75 transition ease-in-out duration-150">
-                    </a>
-                    <div class="mt-2">
-                        <a href="#" class="text-lg mt-2 hover:text-gray:300">@role.title</a>
-                        <div class="text-sm text-gray-400">
-                            @role.character
-                        </div>
-                    </div>
-                </div>
+                <partial name="_ActorRoleCard" model="@role" />
             }
         </div>
     </div>

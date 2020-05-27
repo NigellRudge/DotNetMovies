@@ -19,23 +19,25 @@ namespace DotNetMovies.Controllers
         }
         [Route("")]
         [Route("index")]
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
             var model = new ActorHomeViewmodel()
             {
-                actors = this.service.GetActors().ToList()
+                actors = (await this.service.GetActors()).ToList()
             };
             return View(model);
         }
 
         [Route("Details/{actorId}")]
-        public IActionResult Details(int actorId)
+        public async Task<IActionResult> Details(int actorId)
         {
+            var count = (await this.service.GetActorCredits(actorId)).cast.Count;
+            count = count >= 10 ? 10 : count;
             var model = new ActorDetailViewmodel()
             {
-                actor = this.service.GetActorInfo(actorId),
-                images = this.service.GetActorImages(actorId),
-                roles = this.service.GetActorCredits(actorId).cast
+                actor = await this.service.GetActorInfo(actorId),
+                images = await this.service.GetActorImages(actorId),
+                roles = (await this.service.GetActorCredits(actorId)).cast.ToList().GetRange(0,count)
             };
             return View(model);
         }

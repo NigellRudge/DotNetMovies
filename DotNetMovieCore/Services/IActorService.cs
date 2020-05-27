@@ -2,14 +2,15 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace DotNetMovieCore.Services
 {
     public interface IActorService
     {
-         ActorInfo GetActorInfo(int actorId);
-        IEnumerable<ActorImage> GetActorImages(int actorId);
-        ActorCreditResult GetActorCredits(int actorId);
-        IEnumerable<Actor> GetActors(int page = 1);
+        Task<ActorInfo> GetActorInfo(int actorId);
+        Task<IEnumerable<ActorImage>> GetActorImages(int actorId);
+        Task<ActorCreditResult> GetActorCredits(int actorId);
+        Task<IEnumerable<Actor>> GetActors(int page = 1);
     }
 }

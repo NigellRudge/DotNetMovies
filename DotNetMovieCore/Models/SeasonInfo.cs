@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DotNetMovieCore.config;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -14,6 +15,16 @@ namespace DotNetMovieCore.Models
         public int id { get; set; }
         public string poster_path { get; set; }
         public int season_number { get; set; }
+        public string genreString { get; set; }
+
+        public string GetPosterPath()
+        {
+            if(this.poster_path == null)
+            {
+                return null;
+            }
+            return Config.MEDIA_URL + this.poster_path;
+        }
     }
 
 }
