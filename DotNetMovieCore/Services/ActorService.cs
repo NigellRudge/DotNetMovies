@@ -12,18 +12,18 @@ namespace DotNetMovieCore.Services
 {
     public class ActorService : IActorService
     {
-        private ApiOptions config;
+        private readonly ApiOptions _config;
 
         public ActorService(IOptionsMonitor<ApiOptions> settings)
         {
-            this.config = settings.CurrentValue;
+            this._config = settings.CurrentValue;
 
         }
         public async Task<ActorCreditResult> GetActorCredits(int actorId)
         {
             try{
-                var service = RestService.For<IRefitActorService>(config.BaseUrl);
-                return  await service.GetActorCredits(actorId,config.ApiKey);
+                var service = RestService.For<IRefitActorService>(_config.BaseUrl);
+                return  await service.GetActorCredits(actorId,_config.ApiKey);
             }
             catch(Exception e)
             {
@@ -36,8 +36,14 @@ namespace DotNetMovieCore.Services
         {
             try
             {
-                var service = RestService.For<IRefitActorService>(config.BaseUrl);
-                return (await service.GetActorImages(actorId, config.ApiKey)).results;
+                var service = RestService.For<IRefitActorService>(_config.BaseUrl);
+                var result = (await service.GetActorImages(actorId, _config.ApiKey)).results;
+ 
+                foreach(var item in result)
+                {
+                    System.Diagnostics.Debug.WriteLine(result);
+                }
+                return (await service.GetActorImages(actorId, _config.ApiKey)).results;
             }
             catch (Exception e)
             {
@@ -50,8 +56,8 @@ namespace DotNetMovieCore.Services
         {
             try
             {
-                var service = RestService.For<IRefitActorService>(config.BaseUrl);
-                return await service.GetActorInfo(actorId, config.ApiKey);
+                var service = RestService.For<IRefitActorService>(_config.BaseUrl);
+                return await service.GetActorInfo(actorId, _config.ApiKey);
             }
             catch (Exception e)
             {
@@ -64,8 +70,8 @@ namespace DotNetMovieCore.Services
         {       
             try
             {
-                var service = RestService.For<IRefitActorService>(config.BaseUrl);
-                return (await service.GetAllActors(page, config.ApiKey)).results;
+                var service = RestService.For<IRefitActorService>(_config.BaseUrl);
+                return (await service.GetAllActors(page, _config.ApiKey)).results;
             }
             catch (Exception e)
             {

@@ -14,8 +14,8 @@ namespace DotNetMovieCore.Services
 {
     public class ShowService : IShowService
     {
-        private ApiOptions config;
-        private Task<IEnumerable<Genre>> genres;
+        private readonly ApiOptions config;
+        private readonly Task<IEnumerable<Genre>> genres;
 
         public ShowService(IOptionsMonitor<ApiOptions> settings)
         {

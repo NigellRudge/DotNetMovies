@@ -17,7 +17,6 @@ namespace DotNetMovieCore.Services
         Task<IEnumerable<Poster>> GetMoviePosters(int movieId);
         Task<IEnumerable<Genre>> GetMovieGenres();
         Task<string> GetGenreName(int id);
-
         Task<MovieInfoLong> GetMovieInfoLong(int id);
         Task<VideoItem> GetMovieTrailer(int movieId);
     }
